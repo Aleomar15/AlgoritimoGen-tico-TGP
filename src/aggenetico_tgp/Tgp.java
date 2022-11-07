@@ -42,7 +42,7 @@ public class Tgp {
         this.dist = dist;
     }
     
-     public int[][] inicializarGrafo(){//cria um grafo com o tamanho de nVertices
+public int[][] inicializarGrafo(){//cria um grafo com o tamanho de nVertices
        int n = nVertice;
        int i,j;
        int mat[][] = new int[n][n];
@@ -267,8 +267,20 @@ gerar uma população temporária;*/
         return pais;//posição dos pais
         
     }
+    public int AvRepetido(int filho[],int p,int p1,int p2){
+        int i,pv=p2-p1,r=0;
+        for(i=0;i<=pv;i++){
+            if(filho[p1+i]==p){
+                r = 1;
+                break;
+            }else{
+                r = 0;
+            }
+        }
+        return r;
+    }
     public int[][] crossoverR(int paiR[],int matC[][]){//não terminado
-        int i=0,j,h=1,h2=1,al,p2,ht=0,h3=0;
+        int i=0,j,h=1,h2=1,p,p1,p2,ht=0,h3=0;
         int vet1 [] = new int[nVertice];
         int vet2 [] = new int[nVertice];
         int filho1 [] = new int[nVertice];
@@ -277,8 +289,9 @@ gerar uma população temporária;*/
         int matF[][] = new int [2][nVertice];
         
         Random r = new Random();
-        al = r.nextInt(nVertice);
-        p2=al+1;
+        p1 = nVertice/3;
+        System.out.println(p1);
+        p2=p1*2;
         for(i=0;i<2;i++){
             for(j=0;j<nVertice;j++){
                  matP[i][j]=matC[paiR[i]][j];
@@ -286,6 +299,16 @@ gerar uma população temporária;*/
         }
          h=p2+1;
          i=0;
+         for(i=p1;i<=p2;i++){
+             filho1[i] = matP[0][i];
+             filho2[i] = matP[1][i];
+         }
+         for(i=p2+1;i<nVertice;i++){
+            p=matP[0][i]; 
+             if(AvRepetido(filho1, p,p1,p2)==0){
+                 filho1[i]=matP[1][i];//parou aqui
+             }
+         }
         while(h!=p2){
             
             vet1[i] = matP[1][h];
@@ -298,7 +321,7 @@ gerar uma população temporária;*/
                     }
         }
       
-        filho1[al]= matP[0][al];
+      /*  filho1[al]= matP[0][al];
         filho1[p2]= matP[0][p2];
         filho2[al]= matP[1][al];
         filho2[p2]= matP[1][p2];
@@ -307,7 +330,7 @@ gerar uma população temporária;*/
          System.out.println("");
          for(i=0;i<nVertice;i++)
             System.out.print(vet1[i]+",");
-         System.out.println("");*/
+         System.out.println("");
          i=0;
          h=0;
         
@@ -320,7 +343,7 @@ gerar uma população temporária;*/
             
         }else
             i=i+2;
-       }
+       }*/
       /*  for(i=0;i<nVertice;i++)
             System.out.print(matP[0][i]+",");
         System.out.println("");
@@ -330,14 +353,14 @@ gerar uma população temporária;*/
         for(i=0;i<nVertice;i++)
             System.out.print(matP[1][i]+",");
         */
-      for(i=0;i<nVertice;i++){
+     /* for(i=0;i<nVertice;i++){
            matF[0][i]=filho1[i];
            matF[1][i]=filho2[i];
       }
      
         return matF;
-    }
-    public int[][] crossoverT(int paiT[],int matC[][]){//não terminado
+    }*/
+   /* public int[][] crossoverT(int paiT[],int matC[][]){//não terminado
         int i=0,j,h=1,h2=1,al,p2,ht=0,h3=0;
         int vet1 [] = new int[nVertice];
         int vet2 [] = new int[nVertice];
@@ -377,7 +400,7 @@ gerar uma população temporária;*/
          System.out.println("");
          for(i=0;i<nVertice;i++)
             System.out.print(vet1[i]+",");
-         System.out.println("");*/
+         System.out.println("");
          i=0;
          h=0;
         
@@ -399,11 +422,11 @@ gerar uma população temporária;*/
         System.out.println("");
         for(i=0;i<nVertice;i++)
             System.out.print(matP[1][i]+",");
-        */
+        
       for(i=0;i<nVertice;i++){
            matF[0][i]=filho1[i];
            matF[1][i]=filho2[i];
-      }
+      }*/
      
         return matF;
     }
@@ -540,12 +563,12 @@ gerar uma população temporária;*/
         System.out.println("");
         System.out.println("---//---");
        // mostrarFit(tFit);
-       // matFR=crossoverR(paiR, matC);//Limitação dando erro
-       // matFT=crossoverT(paiR, matC);//Limitação dando erro
-        /*if(nVertice>1000){
+        matFR=crossoverR(paiR, matC);//Limitação dando erro
+        //matFT=crossoverT(paiR, matC);//Limitação dando erro
+        if(nVertice>1000){
             matFRM = mutacao(matFR);//Limitação dando erro
             matFTM = mutacao(matFT);//Limitação dando erro
-        }*/
+        }
         melhorOpPaisT(matIni, matPTO);//Pega o melhor Fitness dos candidatos do torneio
         System.out.println("");
         melhorOpPaisR(matIni, matPRO);//Pega o melhor Fitness dos candidatos da Roleta
